@@ -14,7 +14,7 @@
   --primary-color: #00B2FF;
   --primary-hover-color: #00A0E3;
   --secondary-color: #acabab;
-  --linear-background-color: linear-gradient(90deg, rgba(16,20,55,1) 50%, rgba(185,184,182,1) 99%);
+  --linear-background-color: linear-gradient(90deg, rgba(16, 20, 55, 1) 50%, rgba(185, 184, 182, 1) 99%);
 }
 
 /* Global styles for common elements */
@@ -22,7 +22,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: var(--linear-background-color); /* background yerine background-image kullanıldı */
+  background: var(--linear-background-color);
+  /* background yerine background-image kullanıldı */
   color: #000;
   text-align: center;
   min-height: 100vh;
@@ -31,8 +32,20 @@ body {
 /* Define application-specific styles */
 #app {
   font-family: 'Helvetica Neue', sans-serif;
-  background: var(--linear-background-color); /* background yerine background-image kullanıldı */
+  background: var(--linear-background-color);
+  /* background yerine background-image kullanıldı */
   color: #000;
   text-align: center;
   min-height: 100vh;
+}
+
+.btn-navy {
+  background-color: #1f2253;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
