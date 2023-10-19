@@ -16,6 +16,9 @@
           </div>
           <div class="mb-3 text-start px-3">
             <label for="password" class="form-label">Password:</label>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="First 3 numbers">
+              <i class="bi bi-info-circle h6"></i>
+            </span>
             <input
               v-model="password"
               type="password"
