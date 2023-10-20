@@ -32,7 +32,12 @@
               placeholder="Password"
             />
           </div>
-          <button type="submit" class="btn-navy my-2 px-5">Login</button>
+          <ButtonComponent
+            type="submit"
+            btnClass="btn-navy my-2 px-5"
+            :disabled="false"
+            buttonText="Login"
+          />
         </form>
       </div>
     </div>
@@ -43,9 +48,13 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
+import ButtonComponent from '@/components/ButtonComponent.vue'
 
 export default defineComponent({
   name: 'login-view',
+  components: {
+    ButtonComponent
+  },
   setup() {
     const router = useRouter()
     const email = ref('')
