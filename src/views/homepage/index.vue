@@ -26,6 +26,8 @@
             btnClass="btn-red my-2 px-3"
             :disabled="!recording"
             @click="stopRecording"
+            data-bs-toggle="modal"
+            data-bs-target="#record_preview_modal"
             buttonIcon="bi bi-stop-circle fs-3"
             v-if="isMobile"
           />
@@ -34,6 +36,8 @@
             buttonText="Stop Recording"
             :disabled="!recording"
             @click="stopRecording"
+            data-bs-toggle="modal"
+            data-bs-target="#record_preview_modal"
             v-else
           />
         </div>
@@ -48,6 +52,7 @@
       </p>
     </div>
   </div>
+  <RecordPreviewModal :recordedVideoUrl="videoUrl" />
 </template>
 
 <script lang="ts">
@@ -56,11 +61,13 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import Swal from 'sweetalert2'
+import RecordPreviewModal from '@/components/modals/RecordPreviewModal.vue'
 
 export default defineComponent({
   name: 'homepage-view',
   components: {
-    ButtonComponent
+    ButtonComponent,
+    RecordPreviewModal
   },
   setup() {
     const videoElement = ref<HTMLVideoElement | null>(null)
@@ -70,9 +77,48 @@ export default defineComponent({
     let mediaRecorder: MediaRecorder | null = null
     let mediaStream: MediaStream | null = null
     const recordedChunks: Blob[] = []
+    const videoUrl = ref('')
 
     const startRecording = async () => {
       try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        if (videoElement.value) {
+          videoElement.value.srcObject = mediaStream
+        }
+
+        mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm;codecs=vp9,opus' })
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunks.push(event.data)
+          }
+        }
+
+ 
+
+        mediaRecorder.start()
+        recording.value = true
+      } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to start recording. Please check your camera and microphone permissions, and try again.',
+          icon: 'error',
+          buttonsStyling: false,
+          confirmButtonText: 'OK',
+          customClass: {
+            confirmButton: 'btn btn-danger'
+          }
+        })
+      }
+    }
+
+    const stopRecording = async () => {
+      try {
+        if (mediaRecorder) {
+          mediaRecorder.stop()
+        }
+        if (mediaStream) {
+          mediaStream.getTracks().forEach((track) => track.stop())
+        }
         mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         if (videoElement.value) {
           videoElement.value.srcObject = mediaStream
@@ -95,30 +141,9 @@ export default defineComponent({
           window.URL.revokeObjectURL(videoUrl)
         }
 
-        mediaRecorder.start()
-        recording.value = true
-      } catch (error) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Failed to start recording. Please check your camera and microphone permissions, and try again.',
-          icon: 'error',
-          buttonsStyling: false,
-          confirmButtonText: 'OK',
-          customClass: {
-            confirmButton: 'btn btn-danger'
-          }
-        })
-      }
-    }
+        videoUrl.value = window.URL.createObjectURL(new Blob(recordedChunks, { type: 'video/webm' }))
 
-    const stopRecording = () => {
-      try {
-        if (mediaRecorder) {
-          mediaRecorder.stop()
-        }
-        if (mediaStream) {
-          mediaStream.getTracks().forEach((track) => track.stop())
-        }
+        console.log('data.videoUrl: ', videoUrl)
       } catch (error) {
         Swal.fire({
           title: 'Error!',
@@ -153,6 +178,7 @@ export default defineComponent({
       previewCanvas,
       recording,
       isMobile,
+      videoUrl,
       startRecording,
       stopRecording
     }
