@@ -11,9 +11,7 @@
             data-bs-dismiss="modal"
             aria-label="Close"
           >
-            <i class="ki-duotone ki-cross fs-1"
-              ><span class="path1"></span><span class="path2"></span
-            ></i>
+           <i @click="rerecordVideo" class="bi bi-x-lg h5"></i>
           </div>
           <!--end::Close-->
         </div>
