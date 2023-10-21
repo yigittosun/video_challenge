@@ -1,6 +1,8 @@
 <template>
   <div>
-    <button :type="type" :class="btnClass" :disabled="disabled">{{ buttonText }}</button>
+    <button :type="type" :class="btnClass" :disabled="disabled">
+      <i v-if="buttonIcon" :class="buttonIcon"></i>{{ buttonText }}
+    </button>
   </div>
 </template>
 
@@ -16,7 +18,8 @@ export default defineComponent({
     },
     btnClass: String as PropType<string>,
     disabled: Boolean as PropType<boolean>,
-    buttonText: String as PropType<string>
+    buttonText: String as PropType<string>,
+    buttonIcon: String as PropType<string>
   }
 })
 </script>
