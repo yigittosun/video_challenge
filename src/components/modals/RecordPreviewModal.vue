@@ -143,16 +143,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-/* Mobil cihazlarda video genişliğini sınırla */
 @media (max-width: 768px) {
   video {
-    max-width: 100%; /* Ekran genişliği kadar sınırla */
+    max-width: 100%;
   }
 }
 
-/* Video kapsayıcıyı özelleştir */
 .container {
-  max-width: 100%; /* Ekranın genişliği kadar sınırla */
-  overflow: hidden; /* Taşan içeriği gizle */
+  max-width: 100%;
+  overflow: hidden;
 }
 </style>

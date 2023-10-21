@@ -52,7 +52,16 @@
       </p>
     </div>
   </div>
+  <div class="footer border-bottom-0 rounded-top d-flex justify-content-around rounded-top">
+    <a type="button" data-bs-toggle="modal" data-bs-target="#records_list_modal">
+      <i class="bi bi-floppy text-white h2"></i
+    ></a>
+    <a type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Logout"
+      ><i @click="logout" class="bi bi-box-arrow-right text-white h2"></i
+    ></a>
+  </div>
   <RecordPreviewModal :recordedVideoUrl="videoUrl" @fresh-video="handleFreshVideo" />
+  <RecordsListModal />
 </template>
 
 <script lang="ts">
@@ -62,12 +71,15 @@ import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import Swal from 'sweetalert2'
 import RecordPreviewModal from '@/components/modals/RecordPreviewModal.vue'
+import RecordsListModal from '@/components/modals/RecordsListModal.vue'
+import router from '@/router'
 
 export default defineComponent({
   name: 'homepage-view',
   components: {
     ButtonComponent,
-    RecordPreviewModal
+    RecordPreviewModal,
+    RecordsListModal
   },
   setup() {
     const videoElement = ref<HTMLVideoElement | null>(null)
@@ -180,6 +192,10 @@ export default defineComponent({
       }
     })
 
+    const logout = () => {
+      router.push({ name: 'login-view' })
+    }
+
     return {
       videoElement,
       previewCanvas,
@@ -187,6 +203,7 @@ export default defineComponent({
       isMobile,
       videoUrl,
       freshVideoUrl,
+      logout,
       handleFreshVideo,
       startRecording,
       stopRecording
@@ -195,7 +212,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
 /* For mobile screen */
 @media (max-width: 768px) {
   .video-js.vjs-default-skin {
@@ -224,5 +241,20 @@ export default defineComponent({
     width: 100%;
     margin: 8px 0;
   }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  padding: 10px;
+  background-color: transparent;
+  border: 4px solid #9a9a9a;
+  text-align: center;
+}
+.footer i {
+  cursor: pointer;
 }
 </style>
