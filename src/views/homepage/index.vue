@@ -52,11 +52,11 @@
       </p>
     </div>
   </div>
-  <RecordPreviewModal :recordedVideoUrl="videoUrl" />
+  <RecordPreviewModal :recordedVideoUrl="videoUrl" @fresh-video="handleFreshVideo" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref, onMounted, nextTick } from 'vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
@@ -78,6 +78,7 @@ export default defineComponent({
     let mediaStream: MediaStream | null = null
     const recordedChunks: Blob[] = []
     const videoUrl = ref('')
+    const freshVideoUrl = ref('')
 
     const startRecording = async () => {
       try {
@@ -92,8 +93,6 @@ export default defineComponent({
             recordedChunks.push(event.data)
           }
         }
-
- 
 
         mediaRecorder.start()
         recording.value = true
@@ -141,9 +140,9 @@ export default defineComponent({
           window.URL.revokeObjectURL(videoUrl)
         }
 
-        videoUrl.value = window.URL.createObjectURL(new Blob(recordedChunks, { type: 'video/webm' }))
-
-        console.log('data.videoUrl: ', videoUrl)
+        videoUrl.value = window.URL.createObjectURL(
+          new Blob(recordedChunks, { type: 'video/webm' })
+        )
       } catch (error) {
         Swal.fire({
           title: 'Error!',
@@ -158,6 +157,14 @@ export default defineComponent({
       } finally {
         recording.value = false
       }
+    }
+
+    const handleFreshVideo = () => {
+      freshVideoUrl.value = ''
+
+      nextTick(() => {
+        videoUrl.value = freshVideoUrl.value
+      })
     }
 
     onMounted(() => {
@@ -179,6 +186,8 @@ export default defineComponent({
       recording,
       isMobile,
       videoUrl,
+      freshVideoUrl,
+      handleFreshVideo,
       startRecording,
       stopRecording
     }
