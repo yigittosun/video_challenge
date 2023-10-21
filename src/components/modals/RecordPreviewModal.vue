@@ -11,13 +11,15 @@
             data-bs-dismiss="modal"
             aria-label="Close"
           >
-           <i @click="rerecordVideo" class="bi bi-x-lg h5"></i>
+            <i @click="rerecordVideo" class="bi bi-x-lg h5"></i>
           </div>
           <!--end::Close-->
         </div>
 
         <div class="modal-body">
-          <video :src="recordedVideoUrl" controls></video>
+          <div class="container">
+            <video :src="recordedVideoUrl" controls></video>
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -37,7 +39,9 @@
           <ButtonComponent
             btnClass="btn-success"
             :buttonIcon="
-              uploading ? 'spinner-border spinner-border-sm me-2 ' : 'bi bi-cloud-arrow-up me-2 fs-5'
+              uploading
+                ? 'spinner-border spinner-border-sm me-2 '
+                : 'bi bi-cloud-arrow-up me-2 fs-5'
             "
             :buttonText="uploading ? 'Uploading...' : 'Upload'"
             @click="uploadVideo"
@@ -137,3 +141,18 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+/* Mobil cihazlarda video genişliğini sınırla */
+@media (max-width: 768px) {
+  video {
+    max-width: 100%; /* Ekran genişliği kadar sınırla */
+  }
+}
+
+/* Video kapsayıcıyı özelleştir */
+.container {
+  max-width: 100%; /* Ekranın genişliği kadar sınırla */
+  overflow: hidden; /* Taşan içeriği gizle */
+}
+</style>
