@@ -98,12 +98,50 @@ export default defineComponent({
 
     const startRecording = async () => {
       try {
+        const supportedMimeTypes = [
+          'video/webm;codecs=vp9,opus',
+          'video/mp4',
+          'audio/mp4',
+          'audio/aac',
+          'audio/mpeg',
+          'audio/opus',
+          'audio/webm',
+          'audio/wav',
+          'audio/ogg',
+          'video/webm',
+          'video/ogg',
+          'video/mpeg',
+          'video/mp2t'
+        ]
+
+        let selectedMimeType = ''
+        for (const mimeType of supportedMimeTypes) {
+          if (MediaRecorder.isTypeSupported(mimeType)) {
+            selectedMimeType = mimeType
+            break
+          }
+        }
+
+        if (!selectedMimeType) {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Your browser does not support any of the required MIME types for recording.',
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'btn btn-danger'
+            }
+          })
+          return
+        }
+
         mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         if (videoElement.value) {
           videoElement.value.srcObject = mediaStream
         }
 
-        mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm;codecs=vp9,opus' })
+        mediaRecorder = new MediaRecorder(mediaStream, { mimeType: selectedMimeType })
         mediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) {
             recordedChunks.push(event.data)
@@ -134,12 +172,37 @@ export default defineComponent({
         if (mediaStream) {
           mediaStream.getTracks().forEach((track) => track.stop())
         }
+
+        const supportedMimeTypes = ['video/webm;codecs=vp9,opus', 'video/mp4', 'audio/mp4']
+
+        let selectedMimeType = ''
+        for (const mimeType of supportedMimeTypes) {
+          if (MediaRecorder.isTypeSupported(mimeType)) {
+            selectedMimeType = mimeType
+            break
+          }
+        }
+
+        if (!selectedMimeType) {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Your browser does not support any of the required MIME types for recording.',
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'OK',
+            customClass: {
+              confirmButton: 'btn btn-danger'
+            }
+          })
+          return
+        }
+
         mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         if (videoElement.value) {
           videoElement.value.srcObject = mediaStream
         }
 
-        mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm;codecs=vp9,opus' })
+        mediaRecorder = new MediaRecorder(mediaStream, { mimeType: selectedMimeType })
         mediaRecorder.ondataavailable = (event) => {
           if (event.data.size > 0) {
             recordedChunks.push(event.data)
@@ -147,17 +210,17 @@ export default defineComponent({
         }
 
         mediaRecorder.onstop = () => {
-          const recordedBlob = new Blob(recordedChunks, { type: 'video/webm' })
+          const recordedBlob = new Blob(recordedChunks, { type: selectedMimeType })
           const videoUrl = window.URL.createObjectURL(recordedBlob)
           const a = document.createElement('a')
           a.href = videoUrl
-          a.download = 'recorded-video.webm'
+          a.download = 'recorded-video'
           a.click()
           window.URL.revokeObjectURL(videoUrl)
         }
 
         videoUrl.value = window.URL.createObjectURL(
-          new Blob(recordedChunks, { type: 'video/webm' })
+          new Blob(recordedChunks, { type: selectedMimeType })
         )
       } catch (error) {
         Swal.fire({
