@@ -82,6 +82,20 @@ body, #app {
   cursor: not-allowed;
   transition: all 0.3s ease-in-out;
 }
+.btn-primary {
+  background-color:  #2DA5F7;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #058ac4;
+}
 
 .btn-success {
   background-color: #28d10e;
@@ -152,3 +166,35 @@ body, #app {
 ul {
   list-style-type: none;
 }
+
+/*Mobil cihazlar için button boyutlarını küçültün*/
+@media (max-width: 768px) {
+  .btn-navy {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .btn-secondary {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .btn-red {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .btn-red:disabled {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .btn-primary {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .btn-success {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .wider-card {
+    width: 100%;
+    max-width: 100%;
+  }
+} 

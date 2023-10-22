@@ -37,7 +37,7 @@
             @click="downloadRecordedVideo"
           />
           <ButtonComponent
-            btnClass="btn-success"
+            btnClass="btn-primary"
             :buttonIcon="
               uploading
                 ? 'spinner-border spinner-border-sm me-2 '

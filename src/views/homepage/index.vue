@@ -53,12 +53,16 @@
     </div>
   </div>
   <div class="footer border-bottom-0 rounded-top d-flex justify-content-around rounded-top">
-    <a type="button" data-bs-toggle="modal" data-bs-target="#records_list_modal">
-      <i class="bi bi-floppy text-white h2"></i
-    ></a>
-    <a type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Logout"
-      ><i @click="logout" class="bi bi-box-arrow-right text-white h2"></i
-    ></a>
+    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Records List">
+      <a type="button" data-bs-toggle="modal" data-bs-target="#records_list_modal">
+        <i class="bi bi-floppy text-white h2"></i
+      ></a>
+    </div>
+    <div>
+      <a type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Logout"
+        ><i @click="logout" class="bi bi-box-arrow-right text-white h2"></i
+      ></a>
+    </div>
   </div>
   <RecordPreviewModal :recordedVideoUrl="videoUrl" @fresh-video="handleFreshVideo" />
   <RecordsListModal />
