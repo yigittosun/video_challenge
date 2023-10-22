@@ -100,18 +100,16 @@ export default defineComponent({
       try {
         const supportedMimeTypes = [
           'video/webm;codecs=vp9,opus',
-          'video/mp4',
-          'audio/mp4',
-          'audio/aac',
-          'audio/mpeg',
-          'audio/opus',
-          'audio/webm',
-          'audio/wav',
-          'audio/ogg',
           'video/webm',
           'video/ogg',
+          'video/mp4',
+          'audio/mp4',
           'video/mpeg',
-          'video/mp2t'
+          'audio/aac',
+          'audio/webm',
+          'audio/mpeg',
+          'audio/wav',
+          'audio/ogg'
         ]
 
         let selectedMimeType = ''
@@ -173,7 +171,19 @@ export default defineComponent({
           mediaStream.getTracks().forEach((track) => track.stop())
         }
 
-        const supportedMimeTypes = ['video/webm;codecs=vp9,opus', 'video/mp4', 'audio/mp4']
+        const supportedMimeTypes = [
+          'video/webm;codecs=vp9,opus',
+          'video/webm',
+          'video/ogg',
+          'video/mp4',
+          'audio/mp4',
+          'video/mpeg',
+          'audio/aac',
+          'audio/webm',
+          'audio/mpeg',
+          'audio/wav',
+          'audio/ogg'
+        ]
 
         let selectedMimeType = ''
         for (const mimeType of supportedMimeTypes) {
