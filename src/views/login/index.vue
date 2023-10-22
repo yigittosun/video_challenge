@@ -57,8 +57,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-    const email = ref('')
-    const password = ref('')
+    const email = ref('abc@example.com')
+    const password = ref('123')
 
     const login = (event: Event) => {
       event.preventDefault()
