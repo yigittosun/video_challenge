@@ -29,12 +29,19 @@
                   <span
                     ><strong class="text-navy fs-5">Title: {{ videoTitles[index] }}</strong></span
                   >
-                  <video class="video-js vjs-default-skin vjs-big-play-centered" controls :data-setup="{ fluid: true }">
+                  <video
+                    class="video-js vjs-default-skin vjs-big-play-centered"
+                    controls
+                    :data-setup="{ fluid: true }"
+                  >
                     <source :src="videoURL" type="video/mp4" />
                   </video>
                 </div>
               </li>
             </ul>
+            <div>
+              <p v-if="videoURLs.length === 0">There is no record.</p>
+            </div>
           </div>
 
           <div class="modal-footer">
@@ -86,7 +93,7 @@ export default defineComponent({
 
         isListLoading.value = false
         videoURLs.value = urls
-        videoTitles.value = titles 
+        videoTitles.value = titles
       } catch (error) {
         videoURLs.value = []
         videoTitles.value = []
