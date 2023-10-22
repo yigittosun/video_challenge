@@ -212,7 +212,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 /* For mobile screen */
 @media (max-width: 768px) {
   .video-js.vjs-default-skin {
